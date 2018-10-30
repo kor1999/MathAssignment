@@ -13,8 +13,12 @@ public class MakingGraph {
         XYSeriesCollection xySerColl = new XYSeriesCollection();
         EulerMethod eulerMethod = new EulerMethod(x0,y0,xf,h);
         ImpEulerMethod impEulerMethod = new ImpEulerMethod(x0,y0,xf,h);
+        RungeKuttaMethod rungeKuttaMethod = new RungeKuttaMethod(x0,y0,xf,h);
+
         xySerColl.addSeries(eulerMethod.getEulerSeries());
         xySerColl.addSeries(impEulerMethod.getImpEulerSeries());
+        xySerColl.addSeries(rungeKuttaMethod.getRungeKuttaSeries());
+
         JFreeChart chart = ChartFactory.createXYLineChart("y=e^(-sin(x))-y*cos(x)",
                 "x","y",xySerColl,PlotOrientation.VERTICAL,true,true,true);
 
