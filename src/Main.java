@@ -15,7 +15,7 @@ public class Main {
         double xf = 9.3;
         double h = 0.1;
 
-
+        System.out.println("alallalalal");
         ArrayList<Double> arrX = new ArrayList();
         ArrayList<Double> arrY = new ArrayList<>();
 
