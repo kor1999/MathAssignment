@@ -6,8 +6,19 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MakingGraph {
+    private JTextField x0Field = new JTextField(3);
+    private Label x0Label = new Label("x0:");
+    private JTextField y0Field = new JTextField(3);
+    private Label y0Label = new Label("y0:");
+    private JTextField xfField = new JTextField(3);
+    private Label xfLabel = new Label("xf:");
+    private JTextField hField = new JTextField(3);
+    private Label hLabel = new Label("h:");
+    private JButton updateButton = new JButton("update");
 
     public MakingGraph(double x0, double y0, double xf, double h){
 
@@ -26,7 +37,7 @@ public class MakingGraph {
         xySerColl1.addSeries(impEulerMethod.getImpEulerSeries());
         xySerColl1.addSeries(rungeKuttaMethod.getRungeKuttaSeries());
         xySerColl1.addSeries(exactSolution.getExactSolSereies());
-        //xySerColl1.getSeries(4).
+
         xySerColl2.addSeries(eulerError.geteErrorSeries());
         xySerColl2.addSeries(impEulerError.getImpeErrorSeries());
         xySerColl2.addSeries(rungeKuttaError.getRungeKuttaErrorSeries());
@@ -48,10 +59,32 @@ public class MakingGraph {
         chartPanel2.setSize(new Dimension(500, 220));
         container.add(chartPanel2);
 
-        jFrame.getContentPane().add(chartPanel1);
-        jFrame.getContentPane().add(chartPanel2);
+        Container container2 = jFrame.getContentPane();
+        //container2.setLayout(new GridLayout(5, 2, 2,2));
 
-        jFrame.setSize(800,900);
+        container.add(x0Label);
+        container.add(x0Field);
+        container.add(y0Label);
+        container.add(y0Field);
+        container.add(xfLabel);
+        container.add(xfField);
+        container.add(hLabel);
+        container.add(hField);
+
+        jFrame.getRootPane().setDefaultButton(updateButton);
+        container.add(updateButton);
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MakingGraph makingGraph= new MakingGraph(Double.parseDouble(x0Field.getText()),
+                        Double.parseDouble(y0Field.getText()),Double.parseDouble(xfField.getText()),
+                        Double.parseDouble(hField.getText()));
+                jFrame.dispose();
+            }
+        });
+
+
+        jFrame.setSize(1400,500);
         jFrame.show();
     }
 }
