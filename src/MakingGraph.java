@@ -18,15 +18,22 @@ public class MakingGraph {
         ImpEulerMethod impEulerMethod = new ImpEulerMethod(x0,y0,xf,h);
         RungeKuttaMethod rungeKuttaMethod = new RungeKuttaMethod(x0,y0,xf,h);
         ExactSolution exactSolution = new ExactSolution(x0,y0,xf,h);
+        EulerError eulerError = new EulerError(x0,y0,xf,h);
+        ImpEulerError impEulerError = new ImpEulerError(x0,y0,xf,h);
+        RungeKuttaError rungeKuttaError = new RungeKuttaError(x0,y0,xf,h);
 
         xySerColl1.addSeries(eulerMethod.getEulerSeries());
         xySerColl1.addSeries(impEulerMethod.getImpEulerSeries());
         xySerColl1.addSeries(rungeKuttaMethod.getRungeKuttaSeries());
-        xySerColl2.addSeries(exactSolution.getExactSolSereies());
+        xySerColl1.addSeries(exactSolution.getExactSolSereies());
+        //xySerColl1.getSeries(4).
+        xySerColl2.addSeries(eulerError.geteErrorSeries());
+        xySerColl2.addSeries(impEulerError.getImpeErrorSeries());
+        xySerColl2.addSeries(rungeKuttaError.getRungeKuttaErrorSeries());
 
         JFreeChart chart1 = ChartFactory.createXYLineChart("y'=e^(-sin(x))-y*cos(x)",
                 "x","y",xySerColl1,PlotOrientation.VERTICAL,true,true,true);
-        JFreeChart chart2 = ChartFactory.createXYLineChart("Exact Solution",
+        JFreeChart chart2 = ChartFactory.createXYLineChart("Errors",
                 "x","y",xySerColl2,PlotOrientation.VERTICAL,true,true,true);
 
         JFrame jFrame = new JFrame("MathAssignment");
