@@ -1,6 +1,7 @@
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -44,8 +45,13 @@ public class MakingGraph {
 
         JFreeChart chart1 = ChartFactory.createXYLineChart("y'=e^(-sin(x))-y*cos(x)",
                 "x","y",xySerColl1,PlotOrientation.VERTICAL,true,true,true);
+        //chart1.setBackgroundPaint(Color.gray);
+        Plot plot = chart1.getPlot();
+        plot.setBackgroundPaint(Color.gray);
         JFreeChart chart2 = ChartFactory.createXYLineChart("Errors",
                 "x","y",xySerColl2,PlotOrientation.VERTICAL,true,true,true);
+        Plot plot1 = chart2.getPlot();
+        plot1.setBackgroundPaint(Color.gray);
 
         JFrame jFrame = new JFrame("MathAssignment");
         Container container = jFrame.getContentPane();
@@ -76,15 +82,47 @@ public class MakingGraph {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MakingGraph makingGraph= new MakingGraph(Double.parseDouble(x0Field.getText()),
-                        Double.parseDouble(y0Field.getText()),Double.parseDouble(xfField.getText()),
-                        Double.parseDouble(hField.getText()));
-                jFrame.dispose();
+                if (x0Field.getText().trim().length()<=0 | y0Field.getText().trim().length()<=0 | xfField.getText().trim().length()<=0 | hField.getText().trim().length()<=0 ){
+                    JOptionPane.showMessageDialog(null,
+                            "Empty field! ","Error",JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    boolean corr=true;
+                    try {
+                        Float.valueOf(x0Field.getText());
+                        Float.valueOf(y0Field.getText());
+                        Float.valueOf(xfField.getText());
+                        Float.valueOf(hField.getText());
+                    } catch (java.lang.NumberFormatException e1){
+                        JOptionPane.showMessageDialog(null,
+                                "Incorrect field! ","Error",JOptionPane.PLAIN_MESSAGE);
+                        corr=false;
+                    }
+                    if(corr) {
+
+                        MakingGraph makingGraph = new MakingGraph(Double.parseDouble(x0Field.getText()),
+                                Double.parseDouble(y0Field.getText()), Double.parseDouble(xfField.getText()),
+                                Double.parseDouble(hField.getText()));
+                        jFrame.dispose();
+                    }
+                }
             }
         });
 
 
         jFrame.setSize(1400,500);
         jFrame.show();
+    }
+    private String changeToDot(String str){
+        for (int i = 0; i <str.length() ; i++) {
+            if ((int)str.charAt(i) == 44){
+                StringBuilder stringBuilder = new StringBuilder(str);
+                stringBuilder.setCharAt(i,'.');
+                //
+                System.out.println(stringBuilder.toString());
+                //
+                return(stringBuilder.toString());
+            }
+        }
+        return str;
     }
 }
