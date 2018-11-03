@@ -19,7 +19,8 @@ public class MakingGraph {
     private Label xfLabel = new Label("xf:");
     private JTextField hField = new JTextField(3);
     private Label hLabel = new Label("h:");
-    private JButton updateButton = new JButton("update");
+    private JButton updateButton = new JButton("New graph");
+    private JButton defaultButton = new JButton("Default graph");
 
     public MakingGraph(double x0, double y0, double xf, double h){
 
@@ -77,6 +78,15 @@ public class MakingGraph {
         container.add(hLabel);
         container.add(hField);
 
+
+        createButtonNewGraph(jFrame,container);
+        createButtonDefaultGraph(jFrame,container);
+
+
+        jFrame.setSize(1400,500);
+        jFrame.show();
+    }
+    private void createButtonNewGraph(JFrame jFrame,Container container){
         jFrame.getRootPane().setDefaultButton(updateButton);
         container.add(updateButton);
         updateButton.addActionListener(new ActionListener() {
@@ -107,10 +117,18 @@ public class MakingGraph {
                 }
             }
         });
+    }
+    private void createButtonDefaultGraph(JFrame jFrame,Container container){
+        jFrame.getRootPane().setDefaultButton(defaultButton);
+        container.add(defaultButton);
+        defaultButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MakingGraph makingGraph = new MakingGraph(0,1,9.3,0.1);
 
-
-        jFrame.setSize(1400,500);
-        jFrame.show();
+                jFrame.dispose();
+            }
+        });
     }
     private String changeToDot(String str){
         for (int i = 0; i <str.length() ; i++) {
