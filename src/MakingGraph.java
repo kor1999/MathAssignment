@@ -17,15 +17,24 @@ public class MakingGraph {
     private Label y0Label = new Label("y0:");
     private JTextField xfField = new JTextField(3);
     private Label xfLabel = new Label("xf:");
-    private JTextField hField = new JTextField(3);
-    private Label hLabel = new Label("h:");
+    //private JTextField hField = new JTextField(3);
+    //private Label hLabel = new Label("h:");
+    private JTextField n0Field = new JTextField(3);
+    private Label n0Label = new Label("n0:");
+    private JTextField nfField = new JTextField(3);
+    private Label nfLabel = new Label("nf:");
+
+
     private JButton updateButton = new JButton("New graph");
     private JButton defaultButton = new JButton("Default graph");
 
-    public MakingGraph(double x0, double y0, double xf, double h){
+    public MakingGraph(double x0, double y0, double xf, int n0, int nf){
+
+        double h = (xf-x0)/n0;
 
         XYSeriesCollection xySerColl1 = new XYSeriesCollection();
         XYSeriesCollection xySerColl2 = new XYSeriesCollection();
+        XYSeriesCollection xySerColl3 = new XYSeriesCollection();
 
         EulerMethod eulerMethod = new EulerMethod(x0,y0,xf,h);
         ImpEulerMethod impEulerMethod = new ImpEulerMethod(x0,y0,xf,h);
@@ -34,6 +43,7 @@ public class MakingGraph {
         EulerError eulerError = new EulerError(x0,y0,xf,h);
         ImpEulerError impEulerError = new ImpEulerError(x0,y0,xf,h);
         RungeKuttaError rungeKuttaError = new RungeKuttaError(x0,y0,xf,h);
+        TotalApproxErrorEuler totalApproxErrorEuler = new TotalApproxErrorEuler(x0,y0,xf,n0,nf);
 
         xySerColl1.addSeries(eulerMethod.getEulerSeries());
         xySerColl1.addSeries(impEulerMethod.getImpEulerSeries());
@@ -44,15 +54,23 @@ public class MakingGraph {
         xySerColl2.addSeries(impEulerError.getImpeErrorSeries());
         xySerColl2.addSeries(rungeKuttaError.getRungeKuttaErrorSeries());
 
+        xySerColl3.addSeries(totalApproxErrorEuler.getTotAprErrSeries());
+
         JFreeChart chart1 = ChartFactory.createXYLineChart("y'=e^(-sin(x))-y*cos(x)",
                 "x","y",xySerColl1,PlotOrientation.VERTICAL,true,true,true);
         //chart1.setBackgroundPaint(Color.gray);
         Plot plot = chart1.getPlot();
         plot.setBackgroundPaint(Color.gray);
+
         JFreeChart chart2 = ChartFactory.createXYLineChart("Errors",
                 "x","y",xySerColl2,PlotOrientation.VERTICAL,true,true,true);
         Plot plot1 = chart2.getPlot();
         plot1.setBackgroundPaint(Color.gray);
+
+        JFreeChart chart3 = ChartFactory.createXYLineChart("Total approx errors",
+                "n","y",xySerColl3,PlotOrientation.VERTICAL,true,true,true);
+        Plot plot3 = chart3.getPlot();
+        plot3.setBackgroundPaint(Color.gray);
 
         JFrame jFrame = new JFrame("MathAssignment");
         Container container = jFrame.getContentPane();
@@ -66,8 +84,9 @@ public class MakingGraph {
         chartPanel2.setSize(new Dimension(500, 220));
         container.add(chartPanel2);
 
-        Container container2 = jFrame.getContentPane();
-        //container2.setLayout(new GridLayout(5, 2, 2,2));
+        ChartPanel chartPanel3 = new ChartPanel(chart3);
+        chartPanel3.setSize(new Dimension(500, 220));
+        container.add(chartPanel3);
 
         container.add(x0Label);
         container.add(x0Field);
@@ -75,15 +94,20 @@ public class MakingGraph {
         container.add(y0Field);
         container.add(xfLabel);
         container.add(xfField);
-        container.add(hLabel);
-        container.add(hField);
+        //container.add(hLabel);
+        //container.add(hField);
+        container.add(n0Label);
+        container.add(n0Field);
+        container.add(nfLabel);
+        container.add(nfField);
 
 
         createButtonNewGraph(jFrame,container);
         createButtonDefaultGraph(jFrame,container);
 
 
-        jFrame.setSize(1400,500);
+
+        jFrame.setSize(1600,900);
         jFrame.show();
     }
     private void createButtonNewGraph(JFrame jFrame,Container container){
@@ -92,7 +116,8 @@ public class MakingGraph {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (x0Field.getText().trim().length()<=0 | y0Field.getText().trim().length()<=0 | xfField.getText().trim().length()<=0 | hField.getText().trim().length()<=0 ){
+                if (x0Field.getText().trim().length()<=0 | y0Field.getText().trim().length()<=0 |
+                        xfField.getText().trim().length()<=0 | n0Field.getText().trim().length()<=0 | n0Field.getText().trim().length()<=0 ){
                     JOptionPane.showMessageDialog(null,
                             "Empty field! ","Error",JOptionPane.PLAIN_MESSAGE);
                 } else {
@@ -101,17 +126,17 @@ public class MakingGraph {
                         Float.valueOf(x0Field.getText());
                         Float.valueOf(y0Field.getText());
                         Float.valueOf(xfField.getText());
-                        Float.valueOf(hField.getText());
+                        Float.valueOf(n0Field.getText());
+                        Float.valueOf(nfField.getText());
                     } catch (java.lang.NumberFormatException e1){
                         JOptionPane.showMessageDialog(null,
                                 "Incorrect field! ","Error",JOptionPane.PLAIN_MESSAGE);
                         corr=false;
                     }
                     if(corr) {
-
                         MakingGraph makingGraph = new MakingGraph(Double.parseDouble(x0Field.getText()),
                                 Double.parseDouble(y0Field.getText()), Double.parseDouble(xfField.getText()),
-                                Double.parseDouble(hField.getText()));
+                                Integer.parseInt(n0Field.getText()),Integer.parseInt(nfField.getText()));
                         jFrame.dispose();
                     }
                 }
@@ -119,12 +144,12 @@ public class MakingGraph {
         });
     }
     private void createButtonDefaultGraph(JFrame jFrame,Container container){
-        jFrame.getRootPane().setDefaultButton(defaultButton);
+        //jFrame.getRootPane().setDefaultButton(defaultButton);
         container.add(defaultButton);
         defaultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MakingGraph makingGraph = new MakingGraph(0,1,9.3,0.1);
+                MakingGraph makingGraph = new MakingGraph(0,1,9.3,93,200);
 
                 jFrame.dispose();
             }

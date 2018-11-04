@@ -10,7 +10,7 @@ public class EulerError {
 
     public EulerError(double x0, double y0, double xf, double h){
         eErrorSeries = new XYSeries("Euler error");
-        eErrorSeries.add(0,0);
+        //eErrorSeries.add(0,0);
         double yTemp=y0;
         double c = y0/(Math.pow(Math.E,-Math.sin(x0))) - x0;
 

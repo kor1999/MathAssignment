@@ -9,7 +9,7 @@ public class RungeKuttaError {
 
     public RungeKuttaError(double x0, double y0, double xf, double h) {
         rungeKuttaErrorSeries = new XYSeries("Runge-Kutta error");
-        rungeKuttaErrorSeries.add(0, 0);
+        //rungeKuttaErrorSeries.add(0, 0);
         double yTemp=y0;
         double c = y0/(Math.pow(Math.E,-Math.sin(x0))) - x0;
 
