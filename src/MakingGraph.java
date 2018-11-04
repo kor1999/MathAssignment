@@ -17,8 +17,6 @@ public class MakingGraph {
     private Label y0Label = new Label("y0:");
     private JTextField xfField = new JTextField(3);
     private Label xfLabel = new Label("xf:");
-    //private JTextField hField = new JTextField(3);
-    //private Label hLabel = new Label("h:");
     private JTextField n0Field = new JTextField(3);
     private Label n0Label = new Label("n0:");
     private JTextField nfField = new JTextField(3);
@@ -44,6 +42,8 @@ public class MakingGraph {
         ImpEulerError impEulerError = new ImpEulerError(x0,y0,xf,h);
         RungeKuttaError rungeKuttaError = new RungeKuttaError(x0,y0,xf,h);
         TotalApproxErrorEuler totalApproxErrorEuler = new TotalApproxErrorEuler(x0,y0,xf,n0,nf);
+        TotalApproxErrorImpEuler totalApproxErrorImpEuler = new TotalApproxErrorImpEuler(x0,y0,xf,n0,nf);
+        TotalApproxErrorRungeKutta totalApproxErrorRungeKutta = new TotalApproxErrorRungeKutta(x0,y0,xf,n0,nf);
 
         xySerColl1.addSeries(eulerMethod.getEulerSeries());
         xySerColl1.addSeries(impEulerMethod.getImpEulerSeries());
@@ -55,6 +55,8 @@ public class MakingGraph {
         xySerColl2.addSeries(rungeKuttaError.getRungeKuttaErrorSeries());
 
         xySerColl3.addSeries(totalApproxErrorEuler.getTotAprErrSeries());
+        xySerColl3.addSeries(totalApproxErrorImpEuler.getTotAprErrSeriesImpEuler());
+        xySerColl3.addSeries(totalApproxErrorRungeKutta.getTotAprErrSeriesRungeKutta());
 
         JFreeChart chart1 = ChartFactory.createXYLineChart("y'=e^(-sin(x))-y*cos(x)",
                 "x","y",xySerColl1,PlotOrientation.VERTICAL,true,true,true);
@@ -94,8 +96,6 @@ public class MakingGraph {
         container.add(y0Field);
         container.add(xfLabel);
         container.add(xfField);
-        //container.add(hLabel);
-        //container.add(hField);
         container.add(n0Label);
         container.add(n0Field);
         container.add(nfLabel);

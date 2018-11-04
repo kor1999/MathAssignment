@@ -19,8 +19,10 @@ public class TotalApproxErrorEuler {
             double maxErrorY=Double.MIN_VALUE;
             for (double j = x0 + h; j <xf ; j=j+h) {
                 if (maxErrorY < (Math.abs(Math.pow(Math.E,-Math.sin(j))*(j+c) - (yTemp + h * (Math.pow(Math.E,-Math.sin(j)) - yTemp*Math.cos(j)))))){
-                    maxErrorY = (yTemp + h * (Math.pow(Math.E,-Math.sin(j)) - yTemp*Math.cos(j)));
+                    maxErrorY = (Math.abs(Math.pow(Math.E,-Math.sin(j))*(j+c) - (yTemp + h * (Math.pow(Math.E,-Math.sin(j)) - yTemp*Math.cos(j)))));
+                    //maxErrorY = ((yTemp + h * (Math.pow(Math.E,-Math.sin(j)) - yTemp*Math.cos(j))));
                 }
+                yTemp = yTemp + h * (Math.pow(Math.E,-Math.sin(j)) - yTemp*Math.cos(j));
             }
             totAprErrSeries.add(nNow,maxErrorY);
             nNow++;
