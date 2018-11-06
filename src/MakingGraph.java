@@ -149,7 +149,7 @@ public class MakingGraph {
         defaultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MakingGraph makingGraph = new MakingGraph(0,1,9.3,93,200);
+                MakingGraph makingGraph = new MakingGraph(0,1,9.3,93,500);
 
                 jFrame.dispose();
             }
