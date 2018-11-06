@@ -58,7 +58,7 @@ public class MakingGraph {
         xySerColl3.addSeries(totalApproxErrorImpEuler.getTotAprErrSeriesImpEuler());
         xySerColl3.addSeries(totalApproxErrorRungeKutta.getTotAprErrSeriesRungeKutta());
 
-        JFreeChart chart1 = ChartFactory.createXYLineChart("y'=e^(-sin(x))-y*cos(x)",
+        JFreeChart chart1 = ChartFactory.createXYLineChart("Methods and exact solution",
                 "x","y",xySerColl1,PlotOrientation.VERTICAL,true,true,true);
         //chart1.setBackgroundPaint(Color.gray);
         Plot plot = chart1.getPlot();
@@ -107,7 +107,7 @@ public class MakingGraph {
 
 
 
-        jFrame.setSize(1600,900);
+        jFrame.setSize(1400,900);
         jFrame.show();
     }
     private void createButtonNewGraph(JFrame jFrame,Container container){
